@@ -159,5 +159,18 @@ public class RebirthConfirmGui implements Listener {
         }
         return req;
     }
+    private boolean checkRequirements(Player player, Map<Material, Integer> requirements) {
+        for (Map.Entry<Material, Integer> entry : requirements.entrySet()) {
+            int count = player.getInventory().all(entry.getKey())
+                    .values().stream().mapToInt(ItemStack::getAmount).sum();
+            if (count < entry.getValue()) {
+                player.sendMessage("§cNeed " + entry.getValue() + " " + entry.getKey().name());
+                player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
+                player.closeInventory();
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
