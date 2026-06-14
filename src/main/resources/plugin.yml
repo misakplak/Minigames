@@ -4,3 +4,9 @@ main: cz.misakplak.minigames.Minigames
 api-version: '1.21'
 authors: [ misakplak ]
 description: just a mod
+
+commands:
+
+  rebirth:
+    description: a minigame to progress with rebirths
+    usage: /rebirth

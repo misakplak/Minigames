@@ -2,7 +2,6 @@ package cz.misakplak.minigames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -13,11 +12,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class RequirementsGUI implements Listener {
+public class RequirementsGui implements Listener {
 
     public Inventory getInventory() {
 
-        Inventory RequirementsGUI = Bukkit.createInventory(null, 27, "§3§lRequirements");
+        Inventory RequirementsGUI = Bukkit.createInventory(null, 27, "§3§lRequirements GUI");
 
         ItemStack requirements = new ItemStack(Material.PALE_OAK_SIGN);
         ItemMeta requirementsMeta = requirements.getItemMeta();
@@ -44,7 +43,7 @@ public class RequirementsGUI implements Listener {
         ItemStack info = new ItemStack(Material.BOOK);
         ItemMeta infoMeta = info.getItemMeta();
         infoMeta.setDisplayName("§c§lKEEP IN MIND YOU WILL LOSE YOUR PROGRESS");
-        infoMeta.setLore(Collections.singletonList("§7You will get 10 XP and full iron armor"));
+        infoMeta.setLore(Collections.singletonList("§7You will get 35 XP and full iron armor, and 6 diamonds"));
         info.setItemMeta(infoMeta);
 
 
@@ -59,14 +58,14 @@ public class RequirementsGUI implements Listener {
         RequirementsGUI.setItem(7, empty);
         RequirementsGUI.setItem(8, empty);
         RequirementsGUI.setItem(9, empty);
-        RequirementsGUI.setItem(10, empty);
-        RequirementsGUI.setItem(11, level);
+        RequirementsGUI.setItem(10, level);
+        RequirementsGUI.setItem(11, empty);
         RequirementsGUI.setItem(12, empty);
         RequirementsGUI.setItem(13, requirements);
         RequirementsGUI.setItem(14, empty);
-        RequirementsGUI.setItem(15, level);
-        RequirementsGUI.setItem(16, empty);
-        RequirementsGUI.setItem(17, info);
+        RequirementsGUI.setItem(15, empty);
+        RequirementsGUI.setItem(16, info);
+        RequirementsGUI.setItem(17, empty);
         RequirementsGUI.setItem(18, empty);
         RequirementsGUI.setItem(19, empty);
         RequirementsGUI.setItem(20, empty);
@@ -76,20 +75,24 @@ public class RequirementsGUI implements Listener {
         RequirementsGUI.setItem(24, empty);
         RequirementsGUI.setItem(25, empty);
         RequirementsGUI.setItem(26, empty);
-        RequirementsGUI.setItem(27, empty);
 
         return RequirementsGUI;
     }
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals("§3§lRequirements")) {
-            event.setCancelled(true);
+        if (!event.getView().getTitle().equals("§3§lRequirements GUI")) {
+            return;
+        }
+        event.setCancelled(true);
+
+
+        if (event.getClickedInventory() != event.getView().getTopInventory()) {
+            return;
         }
 
         ItemStack clicked = event.getCurrentItem();
-
-        if (clicked == null) {
+        if (clicked == null || clicked.getType() == Material.AIR) {
             return;
         }
 
