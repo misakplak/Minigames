@@ -105,13 +105,14 @@ public class RebirthGui implements Listener {
             );
         }
 
-        LevelGui LevelGUI = new LevelGui();
+        LevelGui gui = new LevelGui();
         if (clicked.getType() == Material.EXPERIENCE_BOTTLE) {
             Player player = (Player) event.getWhoClicked();
             player.openInventory(
-                    LevelGUI.getInventory()
+                    gui.getInventory(player)
             );
 
         }
+
     }
 }

@@ -2,6 +2,7 @@ package cz.misakplak.minigames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +11,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RebirthConfirmGui implements Listener {
+
 
     public Inventory getInventory() {
 
@@ -69,8 +75,46 @@ public class RebirthConfirmGui implements Listener {
 
         if (clicked.getType() == Material.GREEN_WOOL) {
             Player player = (Player) event.getWhoClicked();
-            player.sendMessage("§aRebirth Confirmed");
-            player.closeInventory();
+
+            int rebirthLevel = Minigames.getInstance()
+                    .getRebirthsConfig()
+                    .getInt("players." + player.getUniqueId(), 0);
+
+
+            int ironCount = player.getInventory().all(Material.IRON_INGOT)
+                    .values().stream().mapToInt(ItemStack::getAmount).sum();
+
+            if (ironCount < 4) {
+                player.sendMessage("§cNeed 4 iron ingots, you have: " + ironCount);
+                player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
+                player.closeInventory();
+                return;
+            }
+
+            int logCount = player.getInventory().all(Material.OAK_LOG)
+                    .values().stream().mapToInt(ItemStack::getAmount).sum();
+
+            if (logCount < 32) {
+                player.sendMessage("§cNeed 32 oak logs, you have: " + logCount);
+                player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
+                player.closeInventory();
+                return;
+            }
+
+            int cobbleCount = player.getInventory().all(Material.COBBLESTONE)
+                    .values().stream().mapToInt(ItemStack::getAmount).sum();
+
+            if (cobbleCount < 64) {
+                player.sendMessage("§cNeed 64  cobblestone, you have: " + cobbleCount);
+                player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
+                player.closeInventory();
+                return;
+            }
+
+           rebirth1Player(player);
+
+
+
         }
         if (clicked.getType() == Material.RED_WOOL) {
             Player player = (Player) event.getWhoClicked();
@@ -85,6 +129,35 @@ public class RebirthConfirmGui implements Listener {
                     gui.getInventory()
             );
         }
+    }
+    public void rebirth1Player(Player player) {
+
+        player.getInventory().clear();
+        player.getInventory().setHelmet(ItemStack.of(Material.IRON_HELMET));
+        player.getInventory().setChestplate(ItemStack.of(Material.IRON_CHESTPLATE));
+        player.getInventory().setLeggings(ItemStack.of(Material.IRON_LEGGINGS));
+        player.getInventory().setBoots(ItemStack.of(Material.IRON_BOOTS));
+        player.getInventory().setItem(5, new ItemStack(Material.DIAMOND_AXE));
+        player.getInventory().setItem(6, new ItemStack(Material.GOLDEN_APPLE, 3));
+        player.setLevel(35);
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+        player.sendMessage("§a§lRebirth Complete!");
+        Minigames.getInstance().addRebirthLevel(player);
+        player.closeInventory();
+
+    }
+    private Map<Material, Integer> getRequirements(int rebirthLevel) {
+        Map<Material, Integer> req = new HashMap<>();
+        if (rebirthLevel == 0) {
+            req.put(Material.IRON_INGOT, 4);
+            req.put(Material.OAK_LOG, 32);
+            req.put(Material.COBBLED_DEEPSLATE, 64);
+        } else if (rebirthLevel == 1) {
+            req.put(Material.IRON_INGOT, 32);
+            req.put(Material.OAK_LOG, 128);
+            req.put(Material.COBBLED_DEEPSLATE, 64);
+        }
+        return req;
     }
 }
 

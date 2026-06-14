@@ -24,9 +24,9 @@ public class RequirementsGui implements Listener {
         requirementsMeta.setLore(Arrays.asList(
 
                 "§7Requirements:",
-                "§f64 Oak Logs",
-                "§f32 Cobblestone",
-                "§f16 Iron Ingots"
+                "§f32 Oak Logs",
+                "§f64 Cobblestone",
+                "§f4 Iron Ingots"
         ));
         requirements.setItemMeta(requirementsMeta);
 
@@ -43,7 +43,7 @@ public class RequirementsGui implements Listener {
         ItemStack info = new ItemStack(Material.BOOK);
         ItemMeta infoMeta = info.getItemMeta();
         infoMeta.setDisplayName("§c§lKEEP IN MIND YOU WILL LOSE YOUR PROGRESS");
-        infoMeta.setLore(Collections.singletonList("§7You will get 35 XP and full iron armor, and 6 diamonds"));
+        infoMeta.setLore(Collections.singletonList("§7You will get 35 XP and full iron armor, and 5 diamonds"));
         info.setItemMeta(infoMeta);
 
 
