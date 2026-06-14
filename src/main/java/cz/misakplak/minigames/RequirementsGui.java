@@ -2,6 +2,7 @@ package cz.misakplak.minigames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -14,21 +15,34 @@ import java.util.Collections;
 
 public class RequirementsGui implements Listener {
 
-    public Inventory getInventory() {
+    public Inventory getInventory(Player player) {
+
+        int getRebirthLevel = Minigames.getInstance().getRebirthLevel(player);
 
         Inventory RequirementsGUI = Bukkit.createInventory(null, 27, "§3§lRequirements GUI");
 
         ItemStack requirements = new ItemStack(Material.PALE_OAK_SIGN);
         ItemMeta requirementsMeta = requirements.getItemMeta();
         requirementsMeta.setDisplayName("§c§lRequirements:");
-        requirementsMeta.setLore(Arrays.asList(
 
-                "§7Requirements:",
-                "§f32 Oak Logs",
-                "§f64 Cobblestone",
-                "§f4 Iron Ingots"
-        ));
+        if (getRebirthLevel == 0) {
+            requirementsMeta.setLore(Arrays.asList(
+                    "§7Requirements:",
+                    "§f32 Oak Logs",
+                    "§f64 Cobblestone",
+                    "§f4 Iron Ingots"
+            ));
+        } else if (getRebirthLevel == 1) {
+            requirementsMeta.setLore(Arrays.asList(
+                    "§7Requirements:",
+                    "§f64 Cobbled Deepslate",
+                    "§f32 Iron Ingots",
+                    "§f128 Oak Logs"
+            ));
+        }
+
         requirements.setItemMeta(requirementsMeta);
+
 
         ItemStack empty = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
         ItemMeta emptyMeta = empty.getItemMeta();
@@ -90,7 +104,7 @@ public class RequirementsGui implements Listener {
         if (event.getClickedInventory() != event.getView().getTopInventory()) {
             return;
         }
-
+        Player player = (Player) event.getWhoClicked();
         ItemStack clicked = event.getCurrentItem();
         if (clicked == null || clicked.getType() == Material.AIR) {
             return;

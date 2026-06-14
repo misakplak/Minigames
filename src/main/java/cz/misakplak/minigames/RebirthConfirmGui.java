@@ -111,7 +111,19 @@ public class RebirthConfirmGui implements Listener {
                 return;
             }
 
-           rebirth1Player(player);
+
+               int getRebirthLevel = Minigames.getInstance().getRebirthLevel(player); {
+
+                if (rebirthLevel == 0) {
+                    rebirth1Player(player);
+                }
+
+                if (rebirthLevel == 1) {
+                    rebirth2Player(player);
+                }
+            }
+
+
 
 
 
@@ -140,6 +152,29 @@ public class RebirthConfirmGui implements Listener {
         player.getInventory().setItem(5, new ItemStack(Material.DIAMOND_AXE));
         player.getInventory().setItem(6, new ItemStack(Material.GOLDEN_APPLE, 3));
         player.setLevel(35);
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+        player.sendMessage("§a§lRebirth Complete!");
+        Minigames.getInstance().addRebirthLevel(player);
+        player.closeInventory();
+
+    }
+
+    public void rebirth2Player(Player player) {
+
+        player.getInventory().clear();
+        player.getInventory().setHelmet(ItemStack.of(Material.AIR));
+        player.getInventory().setChestplate(ItemStack.of(Material.AIR));
+        player.getInventory().setLeggings(ItemStack.of(Material.AIR));
+        player.getInventory().setBoots(ItemStack.of(Material.AIR));
+        player.getInventory().setHelmet(ItemStack.of(Material.DIAMOND_HELMET));
+        player.getInventory().setChestplate(ItemStack.of(Material.DIAMOND_CHESTPLATE));
+        player.getInventory().setLeggings(ItemStack.of(Material.DIAMOND_LEGGINGS));
+        player.getInventory().setBoots(ItemStack.of(Material.DIAMOND_BOOTS));
+        player.getInventory().setItem(0, new ItemStack(Material.DIAMOND_SWORD));
+        player.getInventory().setItem(1, new ItemStack(Material.GOLDEN_APPLE, 10));
+        player.getInventory().setItem(2, new ItemStack(Material.ENCHANTING_TABLE));
+        player.getInventory().setItem(20, new ItemStack(Material.LAPIS_LAZULI, 64));
+        player.setLevel(50);
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
         player.sendMessage("§a§lRebirth Complete!");
         Minigames.getInstance().addRebirthLevel(player);

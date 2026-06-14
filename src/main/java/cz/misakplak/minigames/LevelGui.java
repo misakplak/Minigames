@@ -14,7 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class LevelGui implements Listener {
 
 
-
     public Inventory getInventory(Player player) {
 
         Inventory LevelGUI = Bukkit.createInventory(null, 27, "§3§lLevel GUI");
@@ -27,7 +26,7 @@ public class LevelGui implements Listener {
 
         ItemStack level = new ItemStack(Material.EXPERIENCE_BOTTLE);
         ItemMeta levelMeta = level.getItemMeta();
-        levelMeta.setDisplayName("§aYour Level is : " + + Minigames.getInstance().getRebirthLevel(player));
+        levelMeta.setDisplayName("§aYour Level is : " + +Minigames.getInstance().getRebirthLevel(player));
         level.setItemMeta(levelMeta);
 
 
@@ -95,6 +94,7 @@ public class LevelGui implements Listener {
             player.openInventory(
                     gui.getInventory()
             );
+
         }
     }
 }

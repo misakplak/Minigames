@@ -100,9 +100,8 @@ public class RebirthGui implements Listener {
 
         if (clicked.getType() == Material.BOOK) {
             Player player = (Player) event.getWhoClicked();
-            player.openInventory(
-                    RequirementsGUI.getInventory()
-            );
+            player.openInventory(new RequirementsGui().getInventory(player));
+
         }
 
         LevelGui gui = new LevelGui();
