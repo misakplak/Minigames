@@ -84,7 +84,7 @@ public class RebirthConfirmGui implements Listener {
             int ironCount = player.getInventory().all(Material.IRON_INGOT)
                     .values().stream().mapToInt(ItemStack::getAmount).sum();
 
-            if (ironCount < 4) {
+            if (ironCount < 4)   {
                 player.sendMessage("§cNeed 4 iron ingots, you have: " + ironCount);
                 player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
                 player.closeInventory();

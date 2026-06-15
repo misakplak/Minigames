@@ -10,3 +10,7 @@ commands:
   rebirth:
     description: a minigame to progress with rebirths
     usage: /rebirth
+
+  rebirthreset:
+    description: reset your rebirth levels
+    usage: /rebirthreset
