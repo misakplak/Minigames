@@ -35,9 +35,13 @@ public class RequirementsGui implements Listener {
         } else if (getRebirthLevel == 1) {
             requirementsMeta.setLore(Arrays.asList(
                     "§7Requirements:",
-                    "§f64 Cobbled Deepslate",
-                    "§f32 Iron Ingots",
-                    "§f128 Oak Logs"
+                    "§f1 Ender Pearl",
+                    "§f5 Netherracks",
+                    "§f1 Coal Block"
+            ));
+        } else if (getRebirthLevel == 2) {
+            requirementsMeta.setLore(Arrays.asList(
+                    "§cThere are No more Rebirth Levels."
             ));
         }
 
@@ -60,6 +64,11 @@ public class RequirementsGui implements Listener {
         infoMeta.setLore(Collections.singletonList("§7You will get 35 XP and full iron armor, and 5 diamonds"));
         info.setItemMeta(infoMeta);
 
+        ItemStack back = new ItemStack(Material.BARRIER);
+        ItemMeta backMeta = back.getItemMeta();
+        backMeta.setDisplayName("§c§lBack");
+        back.setItemMeta(backMeta);
+
 
 
         RequirementsGUI.setItem(0, empty);
@@ -74,9 +83,9 @@ public class RequirementsGui implements Listener {
         RequirementsGUI.setItem(9, empty);
         RequirementsGUI.setItem(10, level);
         RequirementsGUI.setItem(11, empty);
-        RequirementsGUI.setItem(12, empty);
+        RequirementsGUI.setItem(12, back);
         RequirementsGUI.setItem(13, requirements);
-        RequirementsGUI.setItem(14, empty);
+        RequirementsGUI.setItem(14, back);
         RequirementsGUI.setItem(15, empty);
         RequirementsGUI.setItem(16, info);
         RequirementsGUI.setItem(17, empty);
@@ -99,15 +108,25 @@ public class RequirementsGui implements Listener {
             return;
         }
         event.setCancelled(true);
-
-
-        if (event.getClickedInventory() != event.getView().getTopInventory()) {
-            return;
-        }
         Player player = (Player) event.getWhoClicked();
-        ItemStack clicked = event.getCurrentItem();
-        if (clicked == null || clicked.getType() == Material.AIR) {
-            return;
+        {
+
+
+            if (event.getClickedInventory() != event.getView().getTopInventory()) {
+                return;
+            }
+
+            ItemStack clicked = event.getCurrentItem();
+            if (clicked == null || clicked.getType() == Material.AIR) {
+                return;
+            }
+
+            if (clicked.getType() == Material.BARRIER) {
+                RebirthGui gui = new RebirthGui();
+                player.openInventory(
+                        gui.getInventory()
+                );
+            }
         }
 
     }

@@ -11,7 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,54 +80,35 @@ public class RebirthConfirmGui implements Listener {
                     .getRebirthsConfig()
                     .getInt("players." + player.getUniqueId(), 0);
 
+            int level = Minigames.getInstance().getRebirthLevel(player);
 
-            int ironCount = player.getInventory().all(Material.IRON_INGOT)
-                    .values().stream().mapToInt(ItemStack::getAmount).sum();
-
-            if (ironCount < 4)   {
-                player.sendMessage("§cNeed 4 iron ingots, you have: " + ironCount);
-                player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
-                player.closeInventory();
-                return;
-            }
-
-            int logCount = player.getInventory().all(Material.OAK_LOG)
-                    .values().stream().mapToInt(ItemStack::getAmount).sum();
-
-            if (logCount < 32) {
-                player.sendMessage("§cNeed 32 oak logs, you have: " + logCount);
-                player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
-                player.closeInventory();
-                return;
-            }
-
-            int cobbleCount = player.getInventory().all(Material.COBBLESTONE)
-                    .values().stream().mapToInt(ItemStack::getAmount).sum();
-
-            if (cobbleCount < 64) {
-                player.sendMessage("§cNeed 64  cobblestone, you have: " + cobbleCount);
-                player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BREAK, 1, 1);
-                player.closeInventory();
-                return;
-            }
-
-
-               int getRebirthLevel = Minigames.getInstance().getRebirthLevel(player); {
-
-                if (rebirthLevel == 0) {
-                    rebirth1Player(player);
+            if (level == 0) {
+                if (!Minigames.getInstance().checkRequirementsRebirthLevel1(player, 0)) {
+                    return;
                 }
 
-                if (rebirthLevel == 1) {
-                    rebirth2Player(player);
-                }
+                rebirth1Player(player);
+                player.closeInventory();
             }
 
+            if (level == 1) {
+                if (!Minigames.getInstance().checkRequirementsRebirthLevel2(player, 1)) {
+                    return;
+                }
 
+                rebirth2Player(player);
+                player.closeInventory();
+            }
 
+            if (level == 2) {
+                player.sendMessage("§c§lThere are no more rebirth levels.");
+                player.closeInventory();
+            }
 
 
         }
+
+
         if (clicked.getType() == Material.RED_WOOL) {
             Player player = (Player) event.getWhoClicked();
             player.sendMessage("Rebirth Cancelled");
@@ -152,7 +133,7 @@ public class RebirthConfirmGui implements Listener {
         player.getInventory().setItem(5, new ItemStack(Material.DIAMOND_AXE));
         player.getInventory().setItem(6, new ItemStack(Material.GOLDEN_APPLE, 3));
         player.setLevel(35);
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 2, 1);
         player.sendMessage("§a§lRebirth Complete!");
         Minigames.getInstance().addRebirthLevel(player);
         player.closeInventory();
@@ -175,7 +156,7 @@ public class RebirthConfirmGui implements Listener {
         player.getInventory().setItem(2, new ItemStack(Material.ENCHANTING_TABLE));
         player.getInventory().setItem(20, new ItemStack(Material.LAPIS_LAZULI, 64));
         player.setLevel(50);
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 2, 1);
         player.sendMessage("§a§lRebirth Complete!");
         Minigames.getInstance().addRebirthLevel(player);
         player.closeInventory();

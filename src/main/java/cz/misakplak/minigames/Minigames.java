@@ -1,9 +1,12 @@
 package cz.misakplak.minigames;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -37,8 +40,7 @@ public final class Minigames extends JavaPlugin {
         getCommand("rebirth").setExecutor(new RebirthGuiCommand());
         getCommand("rebirthreset").setExecutor(new RebirthReset());
 
-        getLogger().info(ChatColor.GOLD + "[Minigames] "
-                + ChatColor.GREEN + "Plugin enabled!");
+        getLogger().info("Plugin enabled!");
     }
 
     @Override
@@ -111,5 +113,42 @@ public final class Minigames extends JavaPlugin {
                 player,
                 currentLevel + 1
         );
+    }
+
+    public boolean checkRequirementsRebirthLevel1(Player player, int rebirthLevel) {
+
+        switch (rebirthLevel) {
+
+            case 0:
+                   return player.getInventory().contains(Material.OAK_LOG, 11);
+
+                case 1:
+                    return player.getInventory().contains(Material.COBBLESTONE, 38);
+
+                    case 2:
+                        return player.getInventory().contains(Material.IRON_INGOT, 6);
+
+                        default:
+                            return false;
+        }
+    }
+
+
+    public boolean checkRequirementsRebirthLevel2(Player player, int rebirthLevel) {
+
+        switch (rebirthLevel) {
+
+            case 0:
+                return player.getInventory().contains(Material.ENDER_PEARL, 1);
+
+            case 1:
+                return player.getInventory().contains(Material.NETHERRACK, 5);
+
+            case 2:
+                return player.getInventory().contains(Material.COAL_BLOCK, 1);
+
+            default:
+                return false;
+        }
     }
 }
