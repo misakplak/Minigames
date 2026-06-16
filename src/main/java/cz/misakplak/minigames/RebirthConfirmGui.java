@@ -11,8 +11,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class RebirthConfirmGui implements Listener {
@@ -84,6 +82,7 @@ public class RebirthConfirmGui implements Listener {
 
             if (level == 0) {
                 if (!Minigames.getInstance().checkRequirementsRebirthLevel1(player, 0)) {
+                    player.sendMessage("§c§l§oYou dont have all requirements to rebirth!");
                     return;
                 }
 
@@ -93,6 +92,7 @@ public class RebirthConfirmGui implements Listener {
 
             if (level == 1) {
                 if (!Minigames.getInstance().checkRequirementsRebirthLevel2(player, 1)) {
+                    player.sendMessage("§c§l§oYou dont have all requirements to rebirth!");
                     return;
                 }
 
@@ -111,7 +111,7 @@ public class RebirthConfirmGui implements Listener {
 
         if (clicked.getType() == Material.RED_WOOL) {
             Player player = (Player) event.getWhoClicked();
-            player.sendMessage("Rebirth Cancelled");
+            player.sendMessage("§c§o§lRebirth Cancelled");
             player.closeInventory();
         }
 
@@ -161,19 +161,6 @@ public class RebirthConfirmGui implements Listener {
         Minigames.getInstance().addRebirthLevel(player);
         player.closeInventory();
 
-    }
-    private Map<Material, Integer> getRequirements(int rebirthLevel) {
-        Map<Material, Integer> req = new HashMap<>();
-        if (rebirthLevel == 0) {
-            req.put(Material.IRON_INGOT, 4);
-            req.put(Material.OAK_LOG, 32);
-            req.put(Material.COBBLED_DEEPSLATE, 64);
-        } else if (rebirthLevel == 1) {
-            req.put(Material.IRON_INGOT, 32);
-            req.put(Material.OAK_LOG, 128);
-            req.put(Material.COBBLED_DEEPSLATE, 64);
-        }
-        return req;
     }
     private boolean checkRequirements(Player player, Map<Material, Integer> requirements) {
         for (Map.Entry<Material, Integer> entry : requirements.entrySet()) {

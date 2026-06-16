@@ -61,7 +61,28 @@ public class RequirementsGui implements Listener {
         ItemStack info = new ItemStack(Material.BOOK);
         ItemMeta infoMeta = info.getItemMeta();
         infoMeta.setDisplayName("§c§lKEEP IN MIND YOU WILL LOSE YOUR PROGRESS");
-        infoMeta.setLore(Collections.singletonList("§7You will get 35 XP and full iron armor, and 5 diamonds"));
+        if (getRebirthLevel == 0) {
+            infoMeta.setLore(Arrays.asList(
+                    "§7Rewards:",
+                    "§f1 x Iron Axe",
+                    "§f3 x Golden Apple",
+                    "§f1 x Full iron set",
+                    "§f35 XP levels"
+            ));
+        } else if (getRebirthLevel == 1) {
+            infoMeta.setLore(Arrays.asList(
+                    "§7Rewards:",
+                    "§f10 x Golden Apple",
+                    "§f1 x Enchanting Table",
+                    "§f64 x Lapis Lazuli",
+                    "§f1x Full diamond set",
+                    "§f50 XP levels"
+            ));
+        } else if (getRebirthLevel == 2) {
+            infoMeta.setLore(Arrays.asList(
+                    "§cThere are No more Rebirth Levels."
+            ));
+        }
         info.setItemMeta(infoMeta);
 
         ItemStack back = new ItemStack(Material.BARRIER);
@@ -126,6 +147,14 @@ public class RequirementsGui implements Listener {
                 player.openInventory(
                         gui.getInventory()
                 );
+            }
+
+            LevelGui gui = new LevelGui();
+            if (clicked.getType() == Material.EXPERIENCE_BOTTLE) {
+                player.openInventory(
+                        gui.getInventory(player)
+                );
+
             }
         }
 
