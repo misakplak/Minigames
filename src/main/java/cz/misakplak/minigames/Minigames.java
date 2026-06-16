@@ -37,9 +37,12 @@ public final class Minigames extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RequirementsGui(), this);
         getServer().getPluginManager().registerEvents(new LevelGui(), this);
 
-        getCommand("rebirth").setExecutor(new RebirthGuiCommand());
-        getCommand("rebirthreset").setExecutor(new RebirthReset());
 
+        RebirthGuiCommand commands = new RebirthGuiCommand();
+        {
+            getCommand("rebirth").setExecutor(commands);
+            getCommand("rebirthreset").setExecutor(commands);
+        }
         getLogger().info("Plugin enabled!");
     }
 
