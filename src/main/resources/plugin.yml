@@ -12,7 +12,7 @@ commands:
     usage: /rebirth
     permission: rebirth
 
-  rebirthreset:
+  reset:
     description: reset your rebirth levels
     usage: /rebirthreset
     permission: rebirth.reset

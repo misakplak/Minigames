@@ -1,8 +1,10 @@
 package cz.misakplak.minigames;
 
+import cz.misakplak.plugin.TabComplete;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -38,10 +40,12 @@ public final class Minigames extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LevelGui(), this);
 
 
+
         RebirthGuiCommand commands = new RebirthGuiCommand();
         {
             getCommand("rebirth").setExecutor(commands);
-            getCommand("rebirthreset").setExecutor(commands);
+            getCommand("reset").setExecutor(commands);
+            getCommand("rebirth").setTabCompleter(new TabComplete());
         }
         getLogger().info("Plugin enabled!");
     }

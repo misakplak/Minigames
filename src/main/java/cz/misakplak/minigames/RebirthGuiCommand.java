@@ -17,7 +17,7 @@ public class RebirthGuiCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            sender.sendMessage("§cUsage: /rebirth | /rebirth rebirthreset");
+            sender.sendMessage("§c§lUsage: /rebirth gui | /rebirth reset");
             return true;
         }
 
@@ -25,7 +25,7 @@ public class RebirthGuiCommand implements CommandExecutor {
 
         switch (args[0].toLowerCase()) {
 
-            case "rebirthreset":
+            case "reset":
 
                 int currentLevel = Minigames.getInstance().getRebirthLevel(player);
 
@@ -34,12 +34,17 @@ public class RebirthGuiCommand implements CommandExecutor {
                     return true;
                 }
 
+                if (player.hasPermission("minigames.rebirth.reset")) {
+                    sender.sendMessage("§c§uYou Dont have permission to reset your rebirth level!");
+                    return true;
+                }
+
                 Minigames.getInstance().setRebirthLevel(player, 0);
 
                 player.sendMessage("§a§lYour rebirth level has been reset!");
                 return true;
 
-            case "rebirth":
+            case "gui":
 
                 if (!player.hasPermission("misakplak.rebirth")) {
                     player.sendMessage("§c§lYou don't have permission!");
