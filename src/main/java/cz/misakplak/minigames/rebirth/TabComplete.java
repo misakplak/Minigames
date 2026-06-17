@@ -1,4 +1,4 @@
-package cz.misakplak.plugin;
+package cz.misakplak.minigames.rebirth;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

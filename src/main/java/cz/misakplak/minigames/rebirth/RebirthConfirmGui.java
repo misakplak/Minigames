@@ -1,5 +1,6 @@
-package cz.misakplak.minigames;
+package cz.misakplak.minigames.rebirth;
 
+import cz.misakplak.minigames.Minigames;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -133,7 +134,7 @@ public class RebirthConfirmGui implements Listener {
         player.getInventory().setItem(5, new ItemStack(Material.DIAMOND_AXE));
         player.getInventory().setItem(6, new ItemStack(Material.GOLDEN_APPLE, 3));
         player.setLevel(35);
-        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 2, 1);
+        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 2, 2);
         player.sendMessage("§a§lRebirth Complete!");
         Minigames.getInstance().addRebirthLevel(player);
         player.closeInventory();
@@ -156,7 +157,7 @@ public class RebirthConfirmGui implements Listener {
         player.getInventory().setItem(2, new ItemStack(Material.ENCHANTING_TABLE));
         player.getInventory().setItem(20, new ItemStack(Material.LAPIS_LAZULI, 64));
         player.setLevel(50);
-        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 2, 1);
+        player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 2, 2);
         player.sendMessage("§a§lRebirth Complete!");
         Minigames.getInstance().addRebirthLevel(player);
         player.closeInventory();

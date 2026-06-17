@@ -1,6 +1,6 @@
-package cz.misakplak.minigames;
+package cz.misakplak.minigames.rebirth;
 
-import org.bukkit.ChatColor;
+import cz.misakplak.minigames.Minigames;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

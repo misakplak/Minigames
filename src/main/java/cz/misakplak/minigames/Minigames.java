@@ -1,14 +1,15 @@
 package cz.misakplak.minigames;
 
-import cz.misakplak.plugin.TabComplete;
+import cz.misakplak.minigames.rebirth.*;
+import cz.misakplak.minigames.rebirth.TabComplete;
+import cz.misakplak.minigames.spleef.SpleefCommand;
+import cz.misakplak.minigames.spleef.SpleefGui;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -20,6 +21,16 @@ public final class Minigames extends JavaPlugin {
 
     private File rebirthsFile;
     private FileConfiguration rebirthsConfig;
+
+    private Location SpleefLocation;
+
+    public void setSpleefLocation(Location SpleefLocation) {
+        this.SpleefLocation = SpleefLocation;
+    }
+
+    public Location getSpleefLocation() {
+        return SpleefLocation;
+    }
 
     public static Minigames getInstance() {
         return instance;
@@ -38,7 +49,7 @@ public final class Minigames extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RebirthConfirmGui(), this);
         getServer().getPluginManager().registerEvents(new RequirementsGui(), this);
         getServer().getPluginManager().registerEvents(new LevelGui(), this);
-
+        getServer().getPluginManager().registerEvents(new SpleefGui(), this);
 
 
         RebirthGuiCommand commands = new RebirthGuiCommand();
@@ -46,6 +57,10 @@ public final class Minigames extends JavaPlugin {
             getCommand("rebirth").setExecutor(commands);
             getCommand("reset").setExecutor(commands);
             getCommand("rebirth").setTabCompleter(new TabComplete());
+        }
+        SpleefCommand spleefCommands = new SpleefCommand();
+        {
+        getCommand("spleef").setExecutor(spleefCommands);
         }
         getLogger().info("Plugin enabled!");
     }

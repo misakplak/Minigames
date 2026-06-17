@@ -16,3 +16,7 @@ commands:
     description: reset your rebirth levels
     usage: /rebirthreset
     permission: rebirth.reset
+
+  spleef:
+    description: splieef minigame
+    usage: /spleef settp and /spleef gui

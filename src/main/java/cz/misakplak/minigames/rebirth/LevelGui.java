@@ -1,5 +1,6 @@
-package cz.misakplak.minigames;
+package cz.misakplak.minigames.rebirth;
 
+import cz.misakplak.minigames.Minigames;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

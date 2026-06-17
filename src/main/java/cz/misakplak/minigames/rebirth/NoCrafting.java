@@ -1,4 +1,4 @@
-package cz.misakplak.minigames;
+package cz.misakplak.minigames.rebirth;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
