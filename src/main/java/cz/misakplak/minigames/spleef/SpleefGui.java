@@ -2,18 +2,28 @@ package cz.misakplak.minigames.spleef;
 
 import cz.misakplak.minigames.Minigames;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+
 
 public class SpleefGui implements Listener {
-
+    private final Set<UUID> frozenPlayers = new HashSet<>();
     public Inventory getInventory(Player player) {
+
 
 
         Inventory SpleefGUI = Bukkit.createInventory(null, 27, "§3§lSpleef");
@@ -69,6 +79,14 @@ public class SpleefGui implements Listener {
     }
 
     @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        if (frozenPlayers.contains(event.getPlayer().getUniqueId())) {
+            event.setCancelled(true);
+        }
+    }
+
+
+    @EventHandler
     public void onClick(InventoryClickEvent event) {
         if (!event.getView().getTitle().equals("§3§lSpleef")) {
             return;
@@ -88,12 +106,48 @@ public class SpleefGui implements Listener {
             }
 
 
+            Location spleefLocation = Minigames.getInstance().getSpleefLocation();
+
+            if (spleefLocation == null) {
+                player.sendMessage("§cNo location set");
+                return;
+            }
+
+
             if (clicked.getType() == Material.NETHERITE_SHOVEL) {
+                player.getInventory().clear();
+                player.getInventory().setItem(4, new ItemStack(Material.NETHERITE_SHOVEL));
                 player.teleport(Minigames.getInstance().getSpleefLocation());
                 player.sendMessage("§a§lYou have been teleported to Spleef!");
+                frozenPlayers.add(player.getUniqueId());
+
+                new BukkitRunnable() {
+
+
+                    int seconds = 10;
+
+                    @Override
+                    public void run() {
+
+
+                        if (seconds <= 0) {
+                            player.sendActionBar("§aGO!");
+                            frozenPlayers.remove(player.getUniqueId());
+                            cancel();
+                            return;
+                        }
+
+
+                        player.sendActionBar("§eStarting in " + seconds);
+                        seconds--;
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1);
+
+                    }
+
+                }.runTaskTimer(Minigames.getInstance(), 0L, 20L);
 
             }
         }
-
     }
 }
+

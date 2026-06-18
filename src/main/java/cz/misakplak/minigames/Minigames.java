@@ -2,11 +2,12 @@ package cz.misakplak.minigames;
 
 import cz.misakplak.minigames.rebirth.*;
 import cz.misakplak.minigames.rebirth.TabComplete;
+import cz.misakplak.minigames.spleef.SaveSpleefCommands;
 import cz.misakplak.minigames.spleef.SpleefCommand;
 import cz.misakplak.minigames.spleef.SpleefGui;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 public final class Minigames extends JavaPlugin {
 
@@ -23,6 +25,15 @@ public final class Minigames extends JavaPlugin {
     private FileConfiguration rebirthsConfig;
 
     private Location SpleefLocation;
+
+    private Location pos1;
+    private Location pos2;
+
+    private HashMap<Location, BlockState> arenaBlocks = new HashMap<>();
+
+    public HashMap<Location, BlockState> getArenaBlocks() {
+        return arenaBlocks;
+    }
 
     public void setSpleefLocation(Location SpleefLocation) {
         this.SpleefLocation = SpleefLocation;
@@ -36,12 +47,28 @@ public final class Minigames extends JavaPlugin {
         return instance;
     }
 
+    public void setPos1(Location pos1) {
+        this.pos1 = pos1;
+    }
+
+    public Location getPos1() {
+        return pos1;
+    }
+
+    public void setPos2(Location pos2) {
+        this.pos2 = pos2;
+    }
+
+    public Location getPos2() {
+        return pos2;
+    }
+
 
     @Override
     public void onEnable() {
 
         instance = this;
-
+        saveDefaultConfig();
         loadRebirthsFile();
 
         getServer().getPluginManager().registerEvents(new NoCrafting(), this);
@@ -60,19 +87,15 @@ public final class Minigames extends JavaPlugin {
         }
         SpleefCommand spleefCommands = new SpleefCommand();
         {
-        getCommand("spleef").setExecutor(spleefCommands);
+            getCommand("spleefarena").setExecutor(spleefCommands);
+
+            SaveSpleefCommands spleefcommands1 = new SaveSpleefCommands();
+            getCommand("spleef").setExecutor(spleefcommands1);
+
         }
         getLogger().info("Plugin enabled!");
     }
 
-    @Override
-    public void onDisable() {
-
-        saveRebirths();
-
-        getLogger().info(ChatColor.GOLD + "[Minigames] "
-                + ChatColor.RED + "Plugin disabled!");
-    }
 
     // ---------------- REBIRTH FILE ----------------
 
@@ -142,16 +165,16 @@ public final class Minigames extends JavaPlugin {
         switch (rebirthLevel) {
 
             case 0:
-                   return player.getInventory().contains(Material.OAK_LOG, 11);
+                return player.getInventory().contains(Material.OAK_LOG, 11);
 
-                case 1:
-                    return player.getInventory().contains(Material.COBBLESTONE, 38);
+            case 1:
+                return player.getInventory().contains(Material.COBBLESTONE, 38);
 
-                    case 2:
-                        return player.getInventory().contains(Material.IRON_INGOT, 6);
+            case 2:
+                return player.getInventory().contains(Material.IRON_INGOT, 6);
 
-                        default:
-                            return false;
+            default:
+                return false;
         }
     }
 

@@ -20,3 +20,7 @@ commands:
   spleef:
     description: splieef minigame
     usage: /spleef settp and /spleef gui
+
+
+  spleefarena:
+    description: spleefgui

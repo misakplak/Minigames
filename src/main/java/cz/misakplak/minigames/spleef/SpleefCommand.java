@@ -24,6 +24,10 @@ public class SpleefCommand implements CommandExecutor {
             return true;
         }
 
+        if (args.length == 0) {
+            return true;
+        }
+
         switch (args[0].toLowerCase()) {
 
             case "settp":
