@@ -1,6 +1,7 @@
 package cz.misakplak.minigames.spleef;
 
 import cz.misakplak.minigames.Minigames;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -35,6 +36,7 @@ public class SaveSpleefCommands implements CommandExecutor {
             Minigames.getInstance().setPos1(player.getLocation());
             player.sendMessage("§a§lArena position 1 saved!");
             sender.sendMessage("§3§lMake sure position 2 is saved too, than run /spleef savearena");
+            return true;
 
             case "save2":
 
@@ -51,6 +53,7 @@ public class SaveSpleefCommands implements CommandExecutor {
                 Minigames.getInstance().setPos2(player.getLocation());
                 player.sendMessage("§a§lArena position 2 saved!");
                 sender.sendMessage("§3§lMake sure position 2 is saved too, than run /spleef savearena");
+                return true;
 
 
             case "savearena":
@@ -59,7 +62,7 @@ public class SaveSpleefCommands implements CommandExecutor {
                 Location pos2 = Minigames.getInstance().getPos2();
 
                 if (pos1 == null || pos2 == null) {
-                    sender.sendMessage("§cSet arena!");
+                    sender.sendMessage("§cSet arena first!");
                     return true;
                 }
 
@@ -93,33 +96,9 @@ public class SaveSpleefCommands implements CommandExecutor {
 
                         }
                     }
+                    sender.sendMessage("§a§lArena has been saved!");
+                    return true;
                 }
-
-                new BukkitRunnable() {
-
-
-                    int seconds = 100;
-
-                    @Override
-                    public void run() {
-
-
-                        if (seconds <= 0) {
-                            for (BlockState state : Minigames.getInstance().getArenaBlocks().values()) {
-                                state.update(true, false);
-                            }
-                            sender.sendMessage("§a§lArena has been reset!");
-                        }
-
-                    }
-
-                }.runTaskTimer(Minigames.getInstance(), 0L, 20L);
-
-
-
-                sender.sendMessage("§a§lArena has been saved!");
-                return true;
-
 
             default:
                 player.sendMessage("§cUnknown subcommand.");

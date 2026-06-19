@@ -1,15 +1,18 @@
 package cz.misakplak.minigames.spleef;
 
+import com.google.common.eventbus.DeadEvent;
 import cz.misakplak.minigames.Minigames;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -142,11 +145,35 @@ public class SpleefGui implements Listener {
                         seconds--;
                         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1, 1);
 
+
                     }
 
                 }.runTaskTimer(Minigames.getInstance(), 0L, 20L);
 
+
+
             }
+
+        }
+
+    }
+    @EventHandler
+    public void onLoseAndWin(PlayerDeathEvent event) {
+        Player winner = event.getEntity().getKiller();
+        Player looser = event.getEntity();
+        event.setDeathMessage(null);
+
+        looser.sendTitle("§c§lYou Lost!", "§a" + winner.getName() + "§a§l Won" , 10, 70, 10);
+
+
+        if (winner == null) {
+            return;
+        }
+
+
+
+        if (winner != null) {
+            winner.sendTitle("§a§lYou Won!", "" , 10, 70, 10);
         }
     }
 }
