@@ -5,6 +5,7 @@ import cz.misakplak.minigames.rebirth.TabComplete;
 import cz.misakplak.minigames.spleef.SaveSpleefCommands;
 import cz.misakplak.minigames.spleef.SpleefCommand;
 import cz.misakplak.minigames.spleef.SpleefGui;
+import cz.misakplak.minigames.spleef.lobby.LobbySpawnCommand;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -25,6 +26,7 @@ public final class Minigames extends JavaPlugin {
     private FileConfiguration rebirthsConfig;
 
     private Location SpleefLocation;
+    private  Location SpawnLocation;
 
     private Location pos1;
     private Location pos2;
@@ -41,6 +43,13 @@ public final class Minigames extends JavaPlugin {
 
     public Location getSpleefLocation() {
         return SpleefLocation;
+    }
+
+    public void setSpawnLocation(Location SpawnLocation) {
+        this.SpawnLocation = SpawnLocation;
+    }
+    public Location getSpawnLocation() {
+        return SpawnLocation;
     }
 
     public static Minigames getInstance() {
@@ -68,7 +77,6 @@ public final class Minigames extends JavaPlugin {
     public void onEnable() {
 
         instance = this;
-        saveDefaultConfig();
         loadRebirthsFile();
 
         getServer().getPluginManager().registerEvents(new NoCrafting(), this);
@@ -88,6 +96,7 @@ public final class Minigames extends JavaPlugin {
         SpleefCommand spleefCommands = new SpleefCommand();
         {
             getCommand("spleefarena").setExecutor(spleefCommands);
+            getCommand("minigamessetspawn").setExecutor(new LobbySpawnCommand());
 
             SaveSpleefCommands spleefcommands1 = new SaveSpleefCommands();
             getCommand("spleef").setExecutor(spleefcommands1);

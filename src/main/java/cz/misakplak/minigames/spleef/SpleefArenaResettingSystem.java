@@ -11,7 +11,7 @@ public class SpleefArenaResettingSystem {
 
         new BukkitRunnable() {
 
-            int seconds = 10;
+            int seconds = 100;
 
             @Override
             public void run() {
@@ -24,7 +24,7 @@ public class SpleefArenaResettingSystem {
 
                     Bukkit.broadcastMessage("§a§lArena has been reset!");
 
-                    cancel(); // Stop this timer
+                    cancel();
                     return;
                 }
 

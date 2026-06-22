@@ -2,7 +2,9 @@ package cz.misakplak.minigames.spleef;
 
 import com.google.common.eventbus.DeadEvent;
 import cz.misakplak.minigames.Minigames;
+import net.kyori.adventure.text.BlockNBTComponent;
 import org.bukkit.*;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -25,8 +27,8 @@ import java.util.UUID;
 
 public class SpleefGui implements Listener {
     private final Set<UUID> frozenPlayers = new HashSet<>();
-    public Inventory getInventory(Player player) {
 
+    public Inventory getInventory(Player player) {
 
 
         Inventory SpleefGUI = Bukkit.createInventory(null, 27, "§3§lSpleef");
@@ -151,30 +153,64 @@ public class SpleefGui implements Listener {
                 }.runTaskTimer(Minigames.getInstance(), 0L, 20L);
 
 
-
             }
 
         }
 
     }
+
     @EventHandler
-    public void onLoseAndWin(PlayerDeathEvent event) {
+    public void onDeath(PlayerDeathEvent event) {
+        Player loser = event.getEntity();
         Player winner = event.getEntity().getKiller();
-        Player looser = event.getEntity();
-        event.setDeathMessage(null);
-
-        looser.sendTitle("§c§lYou Lost!", "§a" + winner.getName() + "§a§l Won" , 10, 70, 10);
 
 
-        if (winner == null) {
-            return;
+            if (winner == null) {
+                return;
+            }
+
+
+            Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
+                loser.spigot().respawn();
+                loser.sendTitle("§c§lYou Lost!", "§a" + winner.getName() + " §lWon", 10, 70, 10);
+                winner.sendTitle("§a§lYou Won!", "", 10, 70, 10);
+                loser.teleport(winner.getLocation());
+                winner.playSound(Minigames.getInstance().getSpleefLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 0.4f, 1.2f);
+                if (Minigames.getInstance().getArenaBlocks() == null) {
+                    return;
+                }
+
+                for (BlockState state : Minigames.getInstance().getArenaBlocks().values()) {
+                    state.update(true, false);
+                }
+                Bukkit.broadcastMessage("§aSpleef reset");
+                winner.teleport(Minigames.getInstance().getSpawnLocation());
+            }, 1L);
         }
 
+        @EventHandler
+        public void onLoseAndWin (PlayerRespawnEvent event){
+            Player player = event.getPlayer();
+            Player winner = player.getKiller();
+
+            if (winner == null) {
+                return;
+            }
+
+            player.playSound(player.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 1.0f, 2f);
+            player.setGameMode(GameMode.SPECTATOR);
+            winner.setGameMode(GameMode.SPECTATOR);
+            winner.playSound(winner.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 2f);
+
+            Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
+
+                player.setGameMode(GameMode.SURVIVAL);
+                player.teleport(Minigames.getInstance().getSpawnLocation());
+                winner.setGameMode(GameMode.SURVIVAL);
+                winner.teleport(Minigames.getInstance().getSpawnLocation());
+            }, 100L);
 
 
-        if (winner != null) {
-            winner.sendTitle("§a§lYou Won!", "" , 10, 70, 10);
         }
     }
-}
 

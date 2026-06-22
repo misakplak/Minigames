@@ -24,3 +24,8 @@ commands:
 
   spleefarena:
     description: spleefgui
+
+
+
+  minigamessetspawn:
+    description: setspawn
