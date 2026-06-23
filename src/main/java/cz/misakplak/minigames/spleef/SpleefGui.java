@@ -121,6 +121,7 @@ public class SpleefGui implements Listener {
 
             if (clicked.getType() == Material.NETHERITE_SHOVEL) {
                 player.getInventory().clear();
+                player.closeInventory();
                 player.getInventory().setItem(4, new ItemStack(Material.NETHERITE_SHOVEL));
                 player.teleport(Minigames.getInstance().getSpleefLocation());
                 player.sendMessage("§a§lYou have been teleported to Spleef!");
@@ -158,11 +159,23 @@ public class SpleefGui implements Listener {
         }
 
     }
+    @EventHandler
+    public void onBarrierTouch(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        Material material = event.getTo().getBlock().getType();
+
+
+        if (material == Material.BARRIER && (!player.hasPermission("minigames.barrier"))) {
+            event.setCancelled(true);
+        }
+
+    }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
-        Player loser = event.getEntity();
-        Player winner = event.getEntity().getKiller();
+        Player loser = event.getPlayer();
+
+        Player winner = event.getPlayer().getWorld().getPlayers().get(0);
 
 
             if (winner == null) {
@@ -174,16 +187,12 @@ public class SpleefGui implements Listener {
                 loser.spigot().respawn();
                 loser.sendTitle("§c§lYou Lost!", "§a" + winner.getName() + " §lWon", 10, 70, 10);
                 winner.sendTitle("§a§lYou Won!", "", 10, 70, 10);
-                loser.teleport(winner.getLocation());
-                winner.playSound(Minigames.getInstance().getSpleefLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 0.4f, 1.2f);
+                loser.teleport(Minigames.getInstance().getSpleefLocation());
+                winner.playSound(winner.getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 0.4f, 1.2f);
+
                 if (Minigames.getInstance().getArenaBlocks() == null) {
                     return;
                 }
-
-                for (BlockState state : Minigames.getInstance().getArenaBlocks().values()) {
-                    state.update(true, false);
-                }
-                Bukkit.broadcastMessage("§aSpleef reset");
                 winner.teleport(Minigames.getInstance().getSpawnLocation());
             }, 1L);
         }
@@ -191,7 +200,7 @@ public class SpleefGui implements Listener {
         @EventHandler
         public void onLoseAndWin (PlayerRespawnEvent event){
             Player player = event.getPlayer();
-            Player winner = player.getKiller();
+            Player winner = event.getPlayer().getWorld().getPlayers().get(0);
 
             if (winner == null) {
                 return;
@@ -201,6 +210,11 @@ public class SpleefGui implements Listener {
             player.setGameMode(GameMode.SPECTATOR);
             winner.setGameMode(GameMode.SPECTATOR);
             winner.playSound(winner.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 2f);
+
+            for (BlockState state : Minigames.getInstance().getArenaBlocks().values()) {
+                state.update(true, false);
+            }
+            Bukkit.broadcastMessage("§aSpleef reset");
 
             Bukkit.getScheduler().runTaskLater(Minigames.getInstance(), () -> {
 
@@ -212,5 +226,6 @@ public class SpleefGui implements Listener {
 
 
         }
+
     }
 

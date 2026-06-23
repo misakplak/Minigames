@@ -1,7 +1,6 @@
-package cz.misakplak.minigames.spleef.lobby;
+package cz.misakplak.minigames.lobby;
 
 import cz.misakplak.minigames.Minigames;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

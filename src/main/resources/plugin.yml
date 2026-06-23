@@ -29,3 +29,7 @@ commands:
 
   minigamessetspawn:
     description: setspawn
+
+  permissions:
+    minigames.barrier:
+      default: op

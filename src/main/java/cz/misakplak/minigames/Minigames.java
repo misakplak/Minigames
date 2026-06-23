@@ -5,13 +5,15 @@ import cz.misakplak.minigames.rebirth.TabComplete;
 import cz.misakplak.minigames.spleef.SaveSpleefCommands;
 import cz.misakplak.minigames.spleef.SpleefCommand;
 import cz.misakplak.minigames.spleef.SpleefGui;
-import cz.misakplak.minigames.spleef.lobby.LobbySpawnCommand;
+import cz.misakplak.minigames.lobby.LobbySpawnCommand;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -204,5 +206,16 @@ public final class Minigames extends JavaPlugin {
             default:
                 return false;
         }
+    }
+
+    @EventHandler
+    public void onTouchWater (PlayerMoveEvent e){
+        Player player = e.getPlayer();
+        Material material = e.getTo().getBlock().getType();
+
+        if (material == Material.WATER) {
+            player.setHealth(0);
+        }
+
     }
 }

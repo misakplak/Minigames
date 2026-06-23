@@ -96,9 +96,9 @@ public class SaveSpleefCommands implements CommandExecutor {
 
                         }
                     }
-                    sender.sendMessage("§a§lArena has been saved!");
-                    return true;
                 }
+                sender.sendMessage("§a§lArena has been saved!");
+                return true;
 
             default:
                 player.sendMessage("§cUnknown subcommand.");
